@@ -5,7 +5,6 @@
 , stdenv
 , buildPackages
 , python3
-, dtc
 , buildTarget ? "RELEASE"
 }:
 let
@@ -48,14 +47,14 @@ stdenv.mkDerivation {
   '';
 
   # depsBuildBuild = [ buildPackages.stdenv.cc ]; # for cpp
-  nativeBuildInputs = [ python3 dtc ];
+  nativeBuildInputs = [ python3 ];
 
   env = {
     PYTHON_COMMAND = "python3";
     GCC5_LOONGARCH64_PREFIX = stdenv.cc.targetPrefix;
   };
 
-  # hardeningDisable = [ "format" "stackprotector" "pic" "fortify" ];
+  hardeningDisable = [ "format" "stackprotector" "pic" "fortify" ];   # significantly enhances performance
 
   buildPhase = ''
     runHook preBuild
@@ -66,7 +65,7 @@ stdenv.mkDerivation {
   installPhase = ''
     runHook preInstall
     mkdir -p $out/FV
-    cp -rv Build/LoongArchQemu/${buildTarget}_GCC5/FV/*.fd $out/FV
+    cp -rv Build/LoongArchQemu/${buildTarget}_GCC5/FV/*.fd $out/
     runHook postInstall
   '';
 
