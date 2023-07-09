@@ -54,7 +54,7 @@ stdenv.mkDerivation {
     GCC5_LOONGARCH64_PREFIX = stdenv.cc.targetPrefix;
   };
 
-  hardeningDisable = [ "format" "stackprotector" "pic" "fortify" ];   # significantly enhances performance
+  hardeningDisable = [ "all" ];   # significantly enhances performance
 
   buildPhase = ''
     runHook preBuild
